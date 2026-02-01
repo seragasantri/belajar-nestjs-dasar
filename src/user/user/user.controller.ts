@@ -7,11 +7,33 @@ import {
   Post,
   Query,
   Redirect,
+  Req,
+  Res,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
+import type { Request, Response } from 'express';
 
 @Controller('/api/user')
 export class UserController {
+  @Get('/view/hello')
+  viewHello(@Query('name') name: string, @Res() res: Response) {
+    res.render('index.html', {
+      title: 'Template Engine',
+      name: name,
+    });
+  }
+
+  @Get('set-cookie')
+  setCookie(@Query('name') name: string, @Res() response: Response) {
+    response.cookie('name', name);
+    response.status(200).send('Success set cookie');
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() req: Request): string {
+    return req.cookies['name'];
+  }
+
   @Get('/sample-response')
   @Header('Content-Type', 'application/json')
   @HttpCode(200)
