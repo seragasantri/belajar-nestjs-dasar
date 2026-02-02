@@ -12,9 +12,24 @@ import {
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { UserService } from './user.service';
+import { Connection } from 'src/connection/connection';
+import { MailService } from 'src/mail/mail.service';
 
 @Controller('/api/user')
 export class UserController {
+  constructor(
+    private service: UserService,
+    private connection: Connection,
+    private mail: MailService,
+  ) {}
+
+  @Get('/connection')
+  async getConnection(): Promise<string> {
+    this.mail.send();
+    return this.connection.getName();
+  }
+
   @Get('/view/hello')
   viewHello(@Query('name') name: string, @Res() res: Response) {
     res.render('index.html', {
