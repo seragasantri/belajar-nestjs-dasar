@@ -17,6 +17,7 @@ import { UserService } from './user.service';
 import { Connection } from 'src/connection/connection';
 import { MailService } from 'src/mail/mail.service';
 import { UserRepository } from '../user-repository/user-repository';
+import { MemberService } from '../member/member.service';
 
 @Controller('/api/user')
 export class UserController {
@@ -25,6 +26,7 @@ export class UserController {
     private connection: Connection,
     private mail: MailService,
     private userRepository: UserRepository,
+    private memberService: MemberService,
     @Inject('EmailService') private emailService: MailService,
   ) {}
 
@@ -32,6 +34,8 @@ export class UserController {
   async getConnection(): Promise<any> {
     this.userRepository.save();
     this.mail.send();
+    console.info(this.memberService.getConnectionName());
+    this.memberService.sendEmail();
     this.emailService.send();
     return this.connection.getName();
   }

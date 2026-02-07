@@ -12,6 +12,7 @@ import {
   createUserRepository,
   UserRepository,
 } from './user-repository/user-repository';
+import { MemberService } from './member/member.service';
 
 @Module({
   controllers: [UserController],
@@ -35,6 +36,7 @@ import {
       provide: 'EmailService',
       useExisting: MailService,
     },
+    MemberService,
   ],
 })
 export class UserModule {}

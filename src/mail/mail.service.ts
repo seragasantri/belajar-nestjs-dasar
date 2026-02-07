@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 export class MailService {
-  send() {
+  send(): void {
     console.log('send email');
   }
 }
